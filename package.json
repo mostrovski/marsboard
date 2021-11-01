@@ -1,13 +1,12 @@
 {
-  "name": "jsnd3_mars_dashboard",
+  "name": "mars-dashboard",
   "version": "1.0.0",
-  "description": "course project",
+  "description": "A demo project showcasing functional programming in JavaScript.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server/index.js"
   },
-  "author": "",
+  "author": "Andrei Ostrovskii",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
