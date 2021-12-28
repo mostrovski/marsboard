@@ -2,10 +2,9 @@
   "name": "mars-dashboard",
   "version": "1.0.0",
   "description": "A demo project showcasing functional programming in JavaScript.",
-  "main": "index.js",
-  "type":"module",
+  "main": "index.mjs",
   "scripts": {
-    "start": "node src/server/index.js",
+    "start": "node src/server/index.mjs",
     "styles": "npx tailwindcss -i ./src/assets/main.css -o ./src/public/client.css --watch"
   },
   "author": "Andrei Ostrovskii",

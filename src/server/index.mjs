@@ -6,13 +6,11 @@ import { fileURLToPath } from 'url';
 
 dotenv.config();
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-const app = express();
-const port = 3000;
-
 const API_BASE = process.env.API_BASE;
 const API_KEY = process.env.API_KEY;
+const app = express();
+const port = 3000;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const buildRequestUri = (resource) => {
     return `${API_BASE}/${resource}?api_key=${API_KEY}`;
@@ -22,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use('/', express.static(path.join(__dirname, '../public')));
-app.use('/immutable', express.static(path.join(__dirname, '../../node_modules/immutable/dist')));
+app.use('/modules', express.static(path.join(__dirname, '../../node_modules')));
 
 app.get('/manifests/:rover', async (req, res) => {
     let rover = req.params.rover;

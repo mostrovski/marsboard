@@ -1,4 +1,6 @@
-let store = Immutable.fromJS({
+import { fromJS } from './modules/immutable/dist/immutable.es.js'
+
+let store = fromJS({
     rovers: {
         curiosity: {},
         opportunity: {},
@@ -14,22 +16,21 @@ let store = Immutable.fromJS({
 
 const root = document.getElementById('root');
 
-const updateStore = (state, newState) => {
-    store = state.mergeDeep(newState);
-    render(root, store);
-};
-
-const render = async (root, state) => {
-    root.innerHTML = App(state);
-};
-
-
 const App = (state) => {
     let name = state.get('currentRover');
 
     return `
         ${RoverInfo(name)}
     `;
+};
+
+const render = async (root, state) => {
+    root.innerHTML = App(state);
+};
+
+const updateStore = (state, newState) => {
+    store = state.mergeDeep(newState);
+    render(root, store);
 };
 
 window.addEventListener('load', () => {
@@ -45,10 +46,8 @@ const RoverInfo = (name) => {
         getManifest(name);
     }
 
-    let rover = data.toJS();
-
     return `
-        <h3>${rover.name ?? ''}</h3>
+        <h3>${data.get('name') ?? ''}</h3>
     `;
 };
 
