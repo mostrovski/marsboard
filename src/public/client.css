@@ -701,6 +701,54 @@ Ensure the default browser behavior of the `hidden` attribute.
           text-decoration-color: #0ea5e9;
 }
 
+.decoration-gray-700 {
+  -webkit-text-decoration-color: #374151;
+          text-decoration-color: #374151;
+}
+
+.decoration-gray-400 {
+  -webkit-text-decoration-color: #9ca3af;
+          text-decoration-color: #9ca3af;
+}
+
+.decoration-gray-500 {
+  -webkit-text-decoration-color: #6b7280;
+          text-decoration-color: #6b7280;
+}
+
+.decoration-gray-600 {
+  -webkit-text-decoration-color: #4b5563;
+          text-decoration-color: #4b5563;
+}
+
+.decoration-teal-500 {
+  -webkit-text-decoration-color: #14b8a6;
+          text-decoration-color: #14b8a6;
+}
+
+.decoration-red-300 {
+  -webkit-text-decoration-color: #fca5a5;
+          text-decoration-color: #fca5a5;
+}
+
+.decoration-sky-400 {
+  -webkit-text-decoration-color: #38bdf8;
+          text-decoration-color: #38bdf8;
+}
+
+.decoration-wavy {
+  -webkit-text-decoration-style: wavy;
+          text-decoration-style: wavy;
+}
+
+.decoration-4 {
+  text-decoration-thickness: 4px;
+}
+
+.underline-offset-8 {
+  text-underline-offset: 8px;
+}
+
 .underline-offset-4 {
   text-underline-offset: 4px;
 }
@@ -713,6 +761,38 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.link {
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 8px;
+}
+
+.hover\:decoration-red-300:hover {
+  -webkit-text-decoration-color: #fca5a5;
+          text-decoration-color: #fca5a5;
+}
+
+.hover\:decoration-sky-400:hover {
+  -webkit-text-decoration-color: #38bdf8;
+          text-decoration-color: #38bdf8;
+}
+
+.hover\:decoration-teal-400:hover {
+  -webkit-text-decoration-color: #2dd4bf;
+          text-decoration-color: #2dd4bf;
+}
+
+.hover\:decoration-red-400:hover {
+  -webkit-text-decoration-color: #f87171;
+          text-decoration-color: #f87171;
+}
+
+.hover\:decoration-sky-500:hover {
+  -webkit-text-decoration-color: #0ea5e9;
+          text-decoration-color: #0ea5e9;
 }
 
 @media (min-width: 640px) {

@@ -58,10 +58,10 @@ const getManifest = (rover) => {
 // ------------------------------------------------------  COMPONENTS
 
 const RoverLink = (name, current) => {
-    let style = (name === current) ? 'text-gray-700 font-semibold' : 'underline underline-offset-4 decoration-red-400';
+    let style = (name === current) ? 'font-semibold text-gray-700 decoration-red-400' : 'decoration-red-300 hover:decoration-red-400';
 
     return `
-        <a href="#" class="rover-link ${style}" data-rover="${name}">
+        <a href="#" class="link rover-link ${style}" data-rover="${name}">
             ${capitalize(name)}
         </a>
     `;
@@ -86,7 +86,7 @@ const Header = (currentRover) => {
                 <div class="flex-1 text-center md:text-right">
                     <a href="https://open.spotify.com/album/6GjlSsOUUl1VlspqO2Vw9U"
                        target="_blank"
-                       class="underline underline-offset-4 decoration-sky-500"
+                       class="link decoration-sky-400 hover:decoration-sky-500"
                     >
                         Stay on Earth
                     </a>
@@ -142,25 +142,25 @@ const RoverInfo = (name) => {
                     </td>
                 </tr>
                 <tr class="relative">
+                    <td class="border-b p-4 pl-md-8 font-semibold">Mission Status</td>
+                    <td class="border-b p-4 pr-md-8 ${data.get('status') === 'active' ? 'text-teal-500' : 'text-stone-500'}">
+                        ${data.get('status') ?? PingingPoint('sky')}
+                    </td>
+                </tr>
+                <tr class="relative">
                     <td class="border-b p-4 pl-md-8 font-semibold">Launch date</td>
                     <td class="border-b p-4 pr-md-8">
-                        ${data.get('launch_date') ?? PingingPoint('sky')}
+                        ${data.get('launch_date') ?? PingingPoint()}
                     </td>
                 </tr>
                 <tr class="relative">
                     <td class="border-b p-4 pl-md-8 font-semibold">Landing date</td>
                     <td class="border-b p-4 pr-md-8">
-                        ${data.get('landing_date') ?? PingingPoint()}
+                        ${data.get('landing_date') ?? PingingPoint('teal')}
                     </td>
                 </tr>
                 <tr class="relative">
-                    <td class="border-b p-4 pl-md-8 font-semibold">Mission Status</td>
-                    <td class="border-b p-4 pr-md-8 ${data.get('status') === 'active' ? 'text-teal-500' : 'text-stone-500'}">
-                        ${data.get('status') ?? PingingPoint('teal')}
-                    </td>
-                </tr>
-                <tr class="relative">
-                    <td class="border-b p-4 pl-md-8 font-semibold">Most recent photos</td>
+                    <td class="border-b p-4 pl-md-8 font-semibold">Latest photos date</td>
                     <td class="border-b p-4 pr-md-8">
                         ${data.get('max_date') ?? PingingPoint('teal')}
                     </td>
