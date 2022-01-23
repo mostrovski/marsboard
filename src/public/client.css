@@ -739,14 +739,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(120 113 108 / var(--tw-text-opacity));
 }
 
-.decoration-red-400 {
-  -webkit-text-decoration-color: #f87171;
-          text-decoration-color: #f87171;
-}
-
 .decoration-red-300 {
   -webkit-text-decoration-color: #fca5a5;
           text-decoration-color: #fca5a5;
+}
+
+.decoration-red-400 {
+  -webkit-text-decoration-color: #f87171;
+          text-decoration-color: #f87171;
 }
 
 .decoration-sky-400 {

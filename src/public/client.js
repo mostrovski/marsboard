@@ -17,13 +17,13 @@ let store = fromJS({
 const $root = document.getElementById('root');
 
 const App = (state) => {
-    let name = state.get('currentRover');
+    const currentRover = state.get('currentRover');
 
     return `
-        ${Header(name)}
+        ${Header(currentRover)}
         <main class="container mx-auto px-8 py-4 lg:px-64">
-            ${RoverInfo(name)}
-            ${Gallery(name)}
+            ${RoverInfo(currentRover, state)}
+            ${Gallery(currentRover, state)}
         </main>
     `;
 };
@@ -44,10 +44,10 @@ const capitalize = (word) => {
 
 // ------------------------------------------------------  API CALLS
 
-const getManifest = (rover) => {
+const getManifest = (rover, state) => {
     fetch(`http://localhost:3000/manifests/${rover}`)
         .then(res => res.json())
-        .then(res => updateStore(store, {
+        .then(res => updateStore(state, {
             rovers: {
                 [rover]: res.photo_manifest,
             }
@@ -56,10 +56,10 @@ const getManifest = (rover) => {
     return rover;
 };
 
-const getPhotos = (rover, date) => {
+const getPhotos = (rover, date, state) => {
     fetch(`http://localhost:3000/photos/${rover}/${date}`)
         .then(res => res.json())
-        .then(res => updateStore(store, {
+        .then(res => updateStore(state, {
             photos: {
                 [rover]: res.photos,
             }
@@ -70,12 +70,17 @@ const getPhotos = (rover, date) => {
 
 // ------------------------------------------------------  COMPONENTS
 
-const RoverLink = (name, current) => {
-    let style = (name === current) ? 'font-semibold text-gray-700 decoration-red-400' : 'decoration-red-300 hover:decoration-red-400';
+const RoverLink = (rover, currentRover) => {
+    const styles = {
+        default: 'decoration-red-300 hover:decoration-red-400',
+        active: 'font-semibold text-gray-700 decoration-red-400',
+    };
+
+    const style = rover === currentRover ? styles.active : styles.default;
 
     return `
-        <a href="#" class="link rover-link ${style}" data-rover="${name}">
-            ${capitalize(name)}
+        <a href="#" class="link rover-link ${style}" data-rover="${rover}">
+            ${capitalize(rover)}
         </a>
     `;
 };
@@ -131,11 +136,73 @@ const PingingPoint = (color = 'default') => {
         },
     };
 
+    const light = backgrounds[color]?.light ?? backgrounds.default.light;
+    const dark = backgrounds[color]?.dark ?? backgrounds.default.dark;
+
     return `
         <span class="absolute inline-flex h-3 w-3 top-5">
-            <span class="absolute inline-flex rounded-full h-full w-full animate-ping opacity-75 ${backgrounds[color]?.light ?? backgrounds.default.light}"></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 ${backgrounds[color]?.dark ?? backgrounds.default.dark}"></span>
+            <span class="absolute inline-flex rounded-full h-full w-full animate-ping opacity-75 ${light}"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 ${dark}"></span>
         </span>
+    `;
+};
+
+const TableRow = (property, value, valueStyle) => {
+    return `
+        <tr class="relative">
+            <td class="border-b p-4 font-semibold">
+                ${property}
+            </td>
+            <td class="border-b p-4 pl-10 ${valueStyle ?? ''}">
+                ${value}
+            </td>
+        </tr>
+    `;
+};
+
+const RoverInfo = (name, state) => {
+    const data = state.getIn(['rovers', name]);
+
+    if (data.size === 0) {
+        getManifest(name, state);
+    }
+
+    const presenter = {
+        name: {
+            value: data.get('name') ?? PingingPoint('sky'),
+        },
+        status: {
+            value: data.get('status') ?? PingingPoint('sky'),
+            style: data.get('status') === 'active' ? 'text-teal-500' : 'text-stone-500',
+        },
+        launchDate: {
+            value: data.get('launch_date') ?? PingingPoint(),
+        },
+        landingDate: {
+            value: data.get('landing_date') ?? PingingPoint('teal'),
+        },
+        maxDate: {
+            value: data.get('max_date') ?? PingingPoint('teal'),
+        },
+        totalPhotos: {
+            value: data.get('photos')?.find(
+                photo => photo.earth_date === data.get('max_date')
+            )?.total_photos ?? PingingPoint('stone'),
+        },
+    };
+
+    return `
+        <table class="table-auto border-collapse">
+            <thead></thead>
+            <tbody>
+                ${TableRow('Rover', presenter.name.value)}
+                ${TableRow('Mission', presenter.status.value, presenter.status.style)}
+                ${TableRow('Launch date', presenter.launchDate.value)}
+                ${TableRow('Landing date', presenter.landingDate.value)}
+                ${TableRow('Latest photos date', presenter.maxDate.value)}
+                ${TableRow('Number of photos', presenter.totalPhotos.value)}
+            </tbody>
+        </table>
     `;
 };
 
@@ -159,15 +226,15 @@ const GalleryPlaceholder = () => {
     `;
 };
 
-const Gallery = (rover) => {
-    let photos = store.getIn(['photos', rover]);
-    let data = store.getIn(['rovers', rover]);
+const Gallery = (rover, state) => {
+    const photos = state.getIn(['photos', rover]);
+    const data = state.getIn(['rovers', rover]);
 
     if (photos.size === 0 && data.size !== 0 && data.get('max_date')) {
-        getPhotos(rover, data.get('max_date'));
+        getPhotos(rover, data.get('max_date'), state);
     }
 
-    let items = photos.map(photo => GalleryItem(photo.img_src));
+    const items = photos.map(photo => GalleryItem(photo.img_src));
 
     if (items.size === 0) {
         return GalleryPlaceholder();
@@ -183,58 +250,6 @@ const Gallery = (rover) => {
         <div class="mt-3 grid ${layouts[items.size >= 3 ? 3 : items.size]} gap-3">
             ${items.join('')}
         </div>
-    `;
-};
-
-const RoverInfo = (name) => {
-    let data = store.getIn(['rovers', name]);
-
-    if (data.size === 0) {
-        getManifest(name);
-    }
-
-    return `
-        <table class="table-auto border-collapse">
-            <thead></thead>
-            <tbody>
-                <tr class="relative">
-                    <td class="border-b p-4 font-semibold">Rover</td>
-                    <td class="border-b p-4 pl-10">
-                        ${data.get('name') ?? PingingPoint('sky')}
-                    </td>
-                </tr>
-                <tr class="relative">
-                    <td class="border-b p-4 font-semibold">Mission</td>
-                    <td class="border-b p-4 pl-10 ${data.get('status') === 'active' ? 'text-teal-500' : 'text-stone-500'}">
-                        ${data.get('status') ?? PingingPoint('sky')}
-                    </td>
-                </tr>
-                <tr class="relative">
-                    <td class="border-b p-4 font-semibold">Launch date</td>
-                    <td class="border-b p-4 pl-10">
-                        ${data.get('launch_date') ?? PingingPoint()}
-                    </td>
-                </tr>
-                <tr class="relative">
-                    <td class="border-b p-4 font-semibold">Landing date</td>
-                    <td class="border-b p-4 pl-10">
-                        ${data.get('landing_date') ?? PingingPoint('teal')}
-                    </td>
-                </tr>
-                <tr class="relative">
-                    <td class="border-b p-4 font-semibold">Latest photos date</td>
-                    <td class="border-b p-4 pl-10">
-                        ${data.get('max_date') ?? PingingPoint('teal')}
-                    </td>
-                </tr>
-                <tr class="relative">
-                    <td class="border-b p-4 font-semibold">Number of photos</td>
-                    <td class="border-b p-4 pl-10">
-                        ${data.get('photos')?.find(photo => photo.earth_date === data.get('max_date'))?.total_photos ?? PingingPoint('stone')}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
     `;
 };
 
