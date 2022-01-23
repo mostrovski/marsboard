@@ -33,4 +33,18 @@ app.get('/manifests/:rover', async (req, res) => {
     }
 });
 
+app.get('/photos/:rover/:date', async (req, res) => {
+    let rover = req.params.rover;
+    let date = req.params.date;
+
+    try {
+        let photos = await fetch(
+            buildRequestUri(`rovers/${rover}/photos`) + `&earth_date=${date}`)
+            .then(res => res.json());
+        res.send(photos);
+    } catch (err) {
+        console.log('error:', err);
+    }
+});
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
