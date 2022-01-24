@@ -188,6 +188,7 @@ const RoverInfo = (name, state) => {
             value: data.get('photos')?.find(
                 photo => photo.earth_date === data.get('max_date')
             )?.total_photos ?? PingingPoint('stone'),
+            style: 'text-stone-500 font-semibold',
         },
     };
 
@@ -200,7 +201,7 @@ const RoverInfo = (name, state) => {
                 ${TableRow('Launch date', presenter.launchDate.value)}
                 ${TableRow('Landing date', presenter.landingDate.value)}
                 ${TableRow('Latest photos date', presenter.maxDate.value)}
-                ${TableRow('Number of photos', presenter.totalPhotos.value)}
+                ${TableRow('Number of photos', presenter.totalPhotos.value, presenter.totalPhotos.style)}
             </tbody>
         </table>
     `;
@@ -208,9 +209,9 @@ const RoverInfo = (name, state) => {
 
 const GalleryItem = (source) => {
     return `
-        <div>
+        <div class="border-4 border-stone-500 rounded">
             <a href="${source}" target="_blank">
-                <img src="${source}" alt="photo" class="w-full" />
+                <img src="${source}" alt="photo" class="w-full h-full" />
             </a>
         </div>
     `;
@@ -219,9 +220,9 @@ const GalleryItem = (source) => {
 const GalleryPlaceholder = () => {
     return `
         <div class="mt-3 grid md:grid-cols-2 xl:grid-cols-3 gap-3">
-            <div class="h-60 bg-stone-300 animate-pulse"></div>
-            <div class="h-60 bg-stone-400 animate-pulse"></div>
-            <div class="h-60 bg-stone-500 animate-pulse"></div>
+            <div class="h-60 bg-stone-300 rounded animate-pulse"></div>
+            <div class="h-60 bg-stone-400 rounded animate-pulse"></div>
+            <div class="h-60 bg-stone-500 rounded animate-pulse"></div>
         </div>
     `;
 };
