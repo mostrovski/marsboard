@@ -21,6 +21,7 @@ app.use(express.json());
 
 app.use('/', express.static(path.join(__dirname, '../public')));
 app.use('/modules', express.static(path.join(__dirname, '../../node_modules')));
+app.use('/support', express.static(path.join(__dirname, '../support')));
 
 app.get('/manifests/:rover', async (req, res) => {
     let rover = req.params.rover;
