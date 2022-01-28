@@ -1,4 +1,4 @@
-import { getPhotos } from './helpers.js';
+import { getPhotos } from './support/helpers.js';
 import GalleryItem from './GalleryItem.js';
 import GalleryPlaceholder from './GalleryPlaceholder.js';
 

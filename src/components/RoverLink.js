@@ -1,4 +1,4 @@
-import { capitalize } from './helpers.js';
+import { capitalize } from './support/helpers.js';
 
 const RoverLink = (rover, currentRover) => {
     const styles = {

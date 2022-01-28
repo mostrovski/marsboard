@@ -1,4 +1,4 @@
-import { getManifest } from './helpers.js';
+import { getManifest } from './support/helpers.js';
 import PingingPoint from './PingingPoint.js';
 import TableRow from './TableRow.js';
 
