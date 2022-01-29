@@ -5,7 +5,7 @@
   "main": "index.mjs",
   "scripts": {
     "start": "node src/server/index.mjs",
-    "styles": "npx tailwindcss -i ./src/assets/main.css -o ./src/public/client.css --watch"
+    "styles": "npx tailwindcss -i ./src/assets/main.css -o ./src/public/client.css"
   },
   "author": "Andrei Ostrovskii",
   "license": "ISC",

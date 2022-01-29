@@ -22,7 +22,7 @@ const RoverLink = (rover, currentRover) => {
     const style = rover === currentRover ? styles.active : styles.default;
 
     return `
-        <a href="#" class="link rover-link ${style}" data-rover="${rover}">
+        <a href="${rover}" class="link rover-link ${style}" data-rover="${rover}">
             ${capitalize(rover)}
         </a>
     `;

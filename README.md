@@ -1,72 +1,66 @@
-# Functional Programming with Javascript
+# Marsboard
 
-## Student Instructions
+## A demo project showcasing work with promises, template literals, immutable data, and pure functions in JavaScript.
 
-### Big Picture
+### Minimum requirements
 
-You are going to create a Mars rover dashboard that consumes the NASA API. Your dashboard will allow the user to select which rover's information they want to view. Once they have selected a rover, they will be able to see the most recent images taken by that rover, as well as important information about the rover and its mission. Your app will make use of all the functional concepts and practices you have learned in this course, and the goal is that you would become very comfortable using pure functions and iterating over, reshaping, and accessing information from complex API responses.
+#### UI:
 
-### Getting Started
+- There should be a gallery of the most recent images sent from each mars rover;
+- The launch date, landing date, name, and status along with any other information about the rover should be presented;
+- There should be a possibility for the user to choose which rover's information they want to see (provide a way to dynamically switch the UI to view one of the three rovers);
+- It should be responsive. Needs to look good (aka not broken) on phones (max width 768px) and desktop (min-width 991px, max-width 1824px). Tablet view is optional.
 
-We have supplied some of the foundational code for you. So follow these steps to get started:
+#### Code:
 
-1. We'll start with the typical setup - clone this repo and install the dependencies
+- Use only pure functions;
+- Use at least one higher order function;
+- Use the ImmutableJS library;
+- Use Node/Express for the server part;
+- Make successful calls to the NASA API;
+- Hide any sensitive information from public view (use dotenv file).
 
- - [ ] To clone the repo, remember to clone just the starter branch:
+### Approach
 
-```git clone --single-branch --branch starter <repo-name>```
+I wanted to write a vanilla JavaScript application that mimics some features of [React](https://reactjs.org/):
 
- - [ ] For this project we are using yarn as our package manager, so to install your dependencies run:
+- working with the application state;
+- coupling logic with templates and styling within (reusable) components;
+- using components composition to build UI.
 
-```yarn install```
+For the most part, it is possible to stay within the functional paradigm. However,
+using only *pure* functions is hardly possible: one has to send API requests,
+render components to the DOM, and listen to a minimum of events.
 
-**If you don’t have yarn installed globally, follow their installation documentation here according to your operating system: https://yarnpkg.com/lang/en/docs/install
+I ended up with the following:
 
-2. Next you'll need a NASA developer API key in order to access the API endpoints. To do that, go here: https://api.nasa.gov/. If you want to simply look around at what api endpoints NASA offers, you can use their provided DEMO_KEY to do this.
+1. [Immutable](https://immutable-js.com/) `Map` for the state object.
+2. `Map.getIn` to traverse the tree of the state.
+3. `Map.mergeDeep` to update the certain portion of the state.
+4. Multiple components responsible for portions of logic and template.
+5. Main component is a wrapper for other components that wrap other components, etc.
+6. *Promise*-based communication with the server and API.
+7. [Tailwind](https://tailwindcss.com/) for styling.
 
-3. In your repo, you will see a .env-example file with a place for your API key. Rename or copy the file to one called `.env` and enter in your key. Now that you have your key, just remember to add it as a parameter to every request you make to NASA.
+### How to run it
 
-5. Run `yarn start` in your terminal and go to `http:localhost:3000` to check that your app is working. If you don't see an image on the page, check that your api key is set up correctly.
+1. Generate API key at [NASA](https://api.nasa.gov/).
+2. Make sure you have [Node.js](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) and [Yarn](https://yarnpkg.com/getting-started/install) installed.
+3. Clone, or download and extract the repository.
+4. Change to the root of the project and run `cp .env-example .env`.
+5. In the newly created *.env* file, replace *YOUR_API_KEY* with your actual key.
+6. Run `yarn install` to install the dependencies.
+7. Run `yarn styles` to (re)build CSS with [Tailwind](https://tailwindcss.com/).
+8. Run `yarn start` to start the server powered by [Express](https://expressjs.com/).
+9. In your terminal, you should see something like this:
 
-6. Remember to commit frequently, use branches, and leave good commit messages! You'll thank yourself later.
+   ```bash
+   yarn run v1.22.17
+   $ node src/server/index.mjs
+   Mars is listening! Visit the dashboard at http://localhost:3000
+   ```
+10. Open provided link in your browser.
 
-### Project Requirements
+### Kudos
 
-To complete this project, your UI must show the following:
-
-- [ ] A gallery of the most recent images sent from each mars rover
-- [ ] The launch date, landing date, name and status along with any other information about the rover
-- [ ] A selection bar for the user to choose which rover's information they want to see
-
-To complete this project, your UI must do the following:
-
-- [ ] Be responsive. Needs to look good(aka not broken) on phones(max width 768px) and desktop(min-width 991px, max-width 1824px). Tablet view is optional.
-- [ ] Provide a way to dynamically switch the UI to view one of the three rovers
-**This can be done using tabs, buttons, or any other UI control
-
-To complete this project, your frontend code must:
-
-- [ ] Use only pure functions
-- [ ] Use at least one Higher Order Function
-- [ ] Use the array method `map`
-- [ ] Use the ImmutableJS library
-
-To complete this project, your backend code must:
-
-- [ ] Be built with Node/Express
-- [ ] Make successful calls to the NASA API
-- [ ] Use pure functions to do any logic necessary
-- [ ] Hide any sensitive information from public view (In other words, use your dotenv file)
-
-### Above and Beyond
-
-The NASA API has a lot more data to offer than what we are using here. There's no extra credit in this course, but it could be fun explore their API and see what they have to offer and what strikes your creativity to add into your project. You are not limited to the API calls we require. Look here (https://api.nasa.gov/ at the Browse API's section) to see all that's available.
-
-Some ideas might be to incorporate the Astronomy Photo of the Day into your design, collect weather information on Mars, etc...
-
-### Design
-
-Create an image gallery slider, put a full page background image, code some falling asteroids with css animations ... the visual design of this UI is up to you! There is a lot of awesome dashboard design inspiration out there. You have already been given a good start with a mobile-first stylesheet already set up for you.
-
-
-
+The starter code and project requirements were provided as a part of the [Intermediate JavaScript Nanodegree](https://www.udacity.com/course/intermediate-javascript-nanodegree--nd032) at Udacity.

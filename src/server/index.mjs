@@ -85,4 +85,4 @@ app.get('/photos/:rover/:date', async (req, res) => {
 });
 
 // Start.
-app.listen(port, () => console.log(`Mars is listening on port ${port}!`));
+app.listen(port, () => console.log(`Mars is listening! Visit the dashboard at http://localhost:${port}`));
