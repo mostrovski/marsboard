@@ -2,6 +2,24 @@ import { getManifest } from './support/helpers.js';
 import PingingPoint from './PingingPoint.js';
 import TableRow from './TableRow.js';
 
+/**
+ * Info table presenting the rover.
+ *
+ * If the state contains no rover data, the async API request is sent.
+ *
+ * While the data are coming back with the API response, it renders animated
+ * placeholders.
+ *
+ * Once the data are ready, the component rerenders with actual rover values.
+ *
+ * @function
+ *
+ * @param {string} name
+ * @param {Immutable.Map} state
+ * @param {function(Immutable.Map, Object):void} updateCallback
+ *
+ * @returns {string}
+ */
 const RoverInfo = (name, state, updateCallback) => {
     const data = state.getIn(['rovers', name]);
 
@@ -14,6 +32,7 @@ const RoverInfo = (name, state, updateCallback) => {
             }));
     }
 
+    // Extendable look-up table
     const presenter = {
         name: {
             value: data.get('name') ?? PingingPoint('sky'),

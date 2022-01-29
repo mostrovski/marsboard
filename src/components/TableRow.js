@@ -1,3 +1,14 @@
+/**
+ * A row in the info table.
+ *
+ * @function
+ *
+ * @param {string} property
+ * @param {string} value
+ * @param {string} valueStyle
+ *
+ * @returns {string}
+ */
 const TableRow = (property, value, valueStyle) => {
     return `
         <tr class="relative">

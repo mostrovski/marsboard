@@ -1,5 +1,16 @@
 import RoverLink from './RoverLink.js';
 
+/**
+ * Application header.
+ *
+ * The value of the current rover affects the rendering of the rover links.
+ *
+ * @function
+ *
+ * @param {string} currentRover
+ *
+ * @returns {string}
+ */
 const Header = (currentRover) => {
     return `
         <header class="h-36 md:h-20 pt-1 sm:pt-0 bg-gray-50 shadow-2xl sticky z-50 top-0 px-8 xl:px-64">

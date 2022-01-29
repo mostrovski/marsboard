@@ -1,4 +1,17 @@
+/**
+ * Animated point with the "pinging" effect.
+ *
+ * If the color doesn't exist in the look-up table, or not provided at all,
+ * the default color value is used.
+ *
+ * @function
+ *
+ * @param {string} color
+ *
+ * @returns {string}
+ */
 const PingingPoint = (color = 'default') => {
+    // Extendable look-up table
     const backgrounds = {
         default: {
             light: 'bg-red-300',
