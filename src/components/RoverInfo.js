@@ -24,12 +24,13 @@ const RoverInfo = (name, state, updateCallback) => {
     const data = state.getIn(['rovers', name]);
 
     if (data.size === 0) {
-        getManifest(name)
-            .then(response => updateCallback(state, {
+        getManifest(name).then((response) =>
+            updateCallback(state, {
                 rovers: {
                     [name]: response.photo_manifest,
-                }
-            }));
+                },
+            })
+        );
     }
 
     // Extendable look-up table
@@ -39,7 +40,8 @@ const RoverInfo = (name, state, updateCallback) => {
         },
         status: {
             value: data.get('status') ?? PingingPoint('sky'),
-            style: data.get('status') === 'active' ? 'text-teal-500' : 'text-stone-500',
+            style:
+        data.get('status') === 'active' ? 'text-teal-500' : 'text-stone-500',
         },
         launchDate: {
             value: data.get('launch_date') ?? PingingPoint(),

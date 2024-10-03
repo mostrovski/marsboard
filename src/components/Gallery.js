@@ -25,16 +25,17 @@ const Gallery = (rover, state, updateCallback) => {
     const data = state.getIn(['rovers', rover]);
 
     if (photos.size === 0 && data.size !== 0 && data.get('max_date')) {
-        getPhotos(rover, data.get('max_date'))
-            .then(response => updateCallback(state, {
+        getPhotos(rover, data.get('max_date')).then((response) =>
+            updateCallback(state, {
                 photos: {
                     [rover]: response.photos,
-                }
-            }));
+                },
+            })
+        );
     }
 
     // Transform values into gallery items
-    const items = photos.map(photo => GalleryItem(photo.img_src));
+    const items = photos.map((photo) => GalleryItem(photo.img_src));
 
     if (items.size === 0) {
         return PulsingBoxGrid();

@@ -60,29 +60,60 @@ const fetchManifest = (rover) => {
  */
 const fetchPhotos = (rover, date) => {
     return fetch(
-        buildRequestUri(`rovers/${rover}/photos`) + `&earth_date=${date}`);
+        buildRequestUri(`rovers/${rover}/photos`) + `&earth_date=${date}`
+    );
 };
 
 // Define routes.
 app.get('/manifests/:rover', async (req, res) => {
+    const defaultDates = {
+        curiosity: '2022-10-03',
+        opportunity: '2017-10-03',
+        spirit: '2004-01-15',
+    };
+
+    const defaultResponse = {
+        photo_manifest: {
+            name: req.params.rover,
+            status: 'unknown',
+            launch_date: 'unknown',
+            landing_date: 'unknown',
+            max_date: defaultDates[req.params.rover] ?? '2022-10-03',
+            photos: [
+                {
+                    earth_date: defaultDates[req.params.rover] ?? '2022-10-03',
+                    total_photos: 'unknown',
+                },
+            ],
+        },
+    };
+
     try {
-        let manifest = await fetchManifest(req.params.rover)
-            .then(res => res.json());
+        let manifest = await fetchManifest(req.params.rover).then((res) =>
+            res.json()
+        );
         res.send(manifest);
     } catch (err) {
         console.log('error:', err);
+        res.send(defaultResponse);
     }
 });
 
 app.get('/photos/:rover/:date', async (req, res) => {
     try {
-        let photos = await fetchPhotos(req.params.rover, req.params.date)
-            .then(res => res.json());
+        let photos = await fetchPhotos(req.params.rover, req.params.date).then(
+            (res) => res.json()
+        );
         res.send(photos);
     } catch (err) {
         console.log('error:', err);
+        res.send({ photos: [{ img_src: '' }] });
     }
 });
 
 // Start.
-app.listen(port, () => console.log(`Mars is listening! Visit the dashboard at http://localhost:${port}`));
+app.listen(port, () =>
+    console.log(
+        `Mars is listening! Visit the dashboard at http://localhost:${port}`
+    )
+);
